@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gemini_app/config/router/app_router.dart';
+import 'package:gemini_app/config/theme/app_theme.dart';
 
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
+  AppTheme.setSystemUiOverlayStyle(isDarckMode: true);
+
   // ? SPLASH SCREEN
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   
-  runApp(const MainApp());
+  runApp(ProviderScope(child: const MainApp())); 
 }
 
 class MainApp extends StatelessWidget {
@@ -18,13 +23,10 @@ class MainApp extends StatelessWidget {
     // ? Splash screen se lo remueve cuando 
     // ? la app esta construida correctamente
     FlutterNativeSplash.remove();
-    return const MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+      routerConfig: appRouter,
+      theme: AppTheme(isDarckMode: true).getTheme(),
     );
   }
 }
