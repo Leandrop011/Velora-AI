@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gemini_app/config/router/app_router.dart';
 import 'package:gemini_app/config/theme/app_theme.dart';
 
+// ! SECTION - 02 CONECTION WITH THE BACKEND
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
