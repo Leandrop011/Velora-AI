@@ -1,78 +1,119 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:flutter_chat_types/flutter_chat_types.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gemini_app/presentation/providers/chat/is_gemini_writing.dart';
-import 'package:gemini_app/presentation/providers/users/user_provider.dart';
 import 'package:riverpod/legacy.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart';
 
-// ? SOLO LA INSTANCIA SIN V4 PORQUE SI SE HACE ESO SERA UN ID MISMO PARA TODOS Y ESO DA ERROR
+import '../../../infrastructure/infrastructure.dart';
+import '../providers.dart';
+
+// ? constante de uuid
 const _uuid = Uuid();
 
 // ! PROVIDER
-final basicChatProvider = StateNotifierProvider.autoDispose<BasicChatNotifier, BasicChatState>((ref) {
-  return BasicChatNotifier( ref: ref );
+final basicChatProvider = StateNotifierProvider<BasicChatNotifier, BasicChatState>((ref) {
+
+  final veloraRepository = ref.watch(veloraRepositoryProvider);
+  final veloraUser = ref.read(userVeloraProvider);
+
+  return BasicChatNotifier( ref: ref, veloraRepository: veloraRepository, veloraUser: veloraUser );
 });
+
 // ! NOTIFIER
 class BasicChatNotifier extends StateNotifier<BasicChatState> {
 
+  final VeloraRepositoryImpl veloraRepository;
+  final User veloraUser;
   final Ref ref;
 
-  BasicChatNotifier({required this.ref}): super(BasicChatState());
+  BasicChatNotifier({
+    required this.ref, 
+    required this.veloraRepository, 
+    required this.veloraUser
+  }): super(BasicChatState());
 
   // ? METODO QUE DEFINIRA QUE TIPO DE MENSAJE SE AGREGA
   void addMessage(User user, PartialText partialText){
-
     _addTextMessage(user, partialText);
   }
 
-  // ? METODO QUE AGREGAR UN MENSAJE DE TEXTO, partialtext es el mensaje que el input tiene cuando send
+  // ? METODO QUE AGREGAR UN MENSAJE DE TEXTO, partialtext es el mensaje que el input tiene cuando se envia
   void _addTextMessage( User author, PartialText partialText ){
     // * New message 
-    final newMessage = TextMessage(
-      author: author, 
-      id: _uuid.v4(), 
-      text: partialText.text,
-      createdAt: DateTime.now().millisecondsSinceEpoch
-    );
-
-    state = state.copyWith(
-      // * PRIMERO AGREGA EL MNENSAJE Y CONSERVA LOS ANTERIORES
-      messages: [newMessage, ...state.messages]
-    );
-
-    _geminiTextResponse(partialText.text);
+    _createTextMessage(author, partialText.text);
+    // * respuesta de velora
+    _veloraTextResponseStream(partialText.text);
   }
 
   // ? METODO QUE AGREGA LOS MENSAJES DE GEMINI AL STATE, EL PROMPT SERA EL QUE SEGUN ESO RESPONDE GEMINI
-  void _geminiTextResponse(String prompt) async{
+  void _veloraTextResponse(String prompt) async{
 
-    // * USUARIO DE GEMINI
-    final geminiUser = ref.read(userGeminiProvider);
+    // * COLOCAMOS EN ESCRIBIENDO
+    _setVeloraWritingStatus(true);
 
-    // * COLOCAMOS EN ESCRIBIENDO...
-    ref.read(isGeminiWritingProvider.notifier).setIsWriting();
-
-    // * DELAYED DE 2 SEGUNDOS
-    await Future.delayed(Duration(seconds: 2));
+    // * CONSULTA AL REPOSITORY
+    final responseGemini = await veloraRepository.getResponse(prompt);
 
     // * COLOCAMOS EN NO ESCRIBIENDO
-    ref.read(isGeminiWritingProvider.notifier).setIsNotWriting();
+    _setVeloraWritingStatus(false);
 
     // * CREAMOS UN NUEVO MENSAJE
+    _createTextMessage(veloraUser, responseGemini);
+
+  }
+
+  // ? METO QUE EMITE VALORES DE UN STREAMM EN LUGAR DE UN RESPUESTA INSTANTANEA
+  void _veloraTextResponseStream(String prompt) async{
+    
+    _createTextMessage(veloraUser, 'Velora esta pensando....');
+
+    // * escuchar las emisiones
+    veloraRepository.getStreamResponse(prompt).listen(
+      (chunk){
+        if(chunk.isEmpty) return;
+        
+        // * tomar la list
+        final updatedMessages = [...state.messages];
+        // * actualizar el ultimo message con la emision del ultimo chunk
+        final updatedMessage = (updatedMessages.first as TextMessage).copyWith(
+          text: chunk,
+        );
+
+        // * aztualizamos la posicion 1 de la list con ese mssaga
+        // * esto se realiza para que no de esa impresion de cada que actualiza el state
+        // * de ese efecto de rebote
+        updatedMessages[0] = updatedMessage;
+
+        // * actualizamos el state
+        state = state.copyWith(
+          messages: updatedMessages,
+        );
+
+      }
+    );
+  
+  }
+
+
+  // ? HELPER METHODS
+  // * metodo que coloca el state del iswriting en true or false
+  void _setVeloraWritingStatus(bool isWriting){
+    final isVeloraWriting = ref.read(isVeloraWritingProvider.notifier);
+    isWriting ? 
+      isVeloraWriting.setIsWriting() 
+      : 
+      isVeloraWriting.setIsNotWriting();
+  }
+
+  // * metodo que crea un nuevo message y lo agregar al state
+  void _createTextMessage( User author, String text ){
     final newMessage = TextMessage(
-      author: geminiUser, 
+      author: author, 
       id: _uuid.v4(), 
-      text: 'Buen mensaje, tu prompt fue: $prompt',
+      text: text,
       createdAt: DateTime.now().millisecondsSinceEpoch
     );
 
-    // * Y LO AGREGAMOS AL STATE
-    state = state.copyWith(
-      // * PRIMERO AGREGA EL MNENSAJE Y CONSERVA LOS ANTERIORES
-      messages: [newMessage, ...state.messages]
-    );
-
+    state = state.copyWith( messages: [newMessage, ...state.messages] );
   }
   
 }

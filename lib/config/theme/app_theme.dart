@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 const seedColor = Color(0xFF1E1C36);
 
@@ -28,6 +29,17 @@ class AppTheme {
       backgroundColor: Color(0xFF1E1C36),
       surfaceTintColor: Colors.transparent,
     ),
+
+    // ? TEMA DE TEXTO
+    textTheme: TextTheme(
+      titleLarge: GoogleFonts.outfit().copyWith(fontSize: 22, fontWeight: FontWeight.w600, letterSpacing: 0),
+      titleMedium: GoogleFonts.outfit().copyWith(fontSize: 17, fontWeight: FontWeight.w600, letterSpacing: 0.1),
+      titleSmall: GoogleFonts.outfit().copyWith(fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 0.1),
+      bodyLarge: GoogleFonts.inter().copyWith(fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0.15),
+      bodyMedium: GoogleFonts.inter().copyWith(fontSize: 14, fontWeight: FontWeight.w400, letterSpacing: 0.25),
+      bodySmall: GoogleFonts.inter().copyWith(fontSize: 12, fontWeight: FontWeight.w400, letterSpacing: 0.4),
+    ),
+
 
   );
 

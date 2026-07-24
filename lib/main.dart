@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gemini_app/config/router/app_router.dart';
 import 'package:gemini_app/config/theme/app_theme.dart';
 
 // ! SECTION - 02 CONECTION WITH THE BACKEND
-void main() {
+void main() async{
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
+  // ? cambiar el overlay del dispositivo, para el tema darck
   AppTheme.setSystemUiOverlayStyle(isDarckMode: true);
+
+  // ? .env
+  await dotenv.load(fileName: '.env');
+
 
   // ? SPLASH SCREEN
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   
-  runApp(ProviderScope(child: const MainApp())); 
+  runApp(const ProviderScope(child: MainApp())); 
 }
 
 class MainApp extends StatelessWidget {

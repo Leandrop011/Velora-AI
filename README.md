@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="assets/logo_app.png" alt="Logo" width="200"/>
+  <img src="assets/logo_app/logo_app.png" alt="Logo" width="200"/>
 </p>
 
 <p align="center">
@@ -15,6 +15,11 @@ desarrollada con Flutter. El chatbot es capaz de responder a preguntas
 y mantener conversaciones de manera natural.
 Ademas gracias a la arquitectura aplicada puede variar los modelos de 
 AI.
+
+## DEV
+1. Clonar el repositorio.
+2. Ejecutar el comando `flutter pub get` para instalacion de dependencias.
+2. Cambiar el archivo `.env-example` a `.env` y realizar los cambios respectivos.
 
 ## Dependencias DEV
 Cambiar Splash Screen
@@ -68,4 +73,15 @@ Ejecutar comando de(si se esta usando codigo generativo de riverpod):
 ```
 dart run build_runner watch
 ```
+
+Paquete para usar las variables de entorno
+```
+flutter pub add flutter_dotenv
+```
+
+Fuentes de Google
+```
+flutter pub add google_fonts
+```
+
 

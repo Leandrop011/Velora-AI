@@ -1,14 +1,13 @@
 import 'package:riverpod/legacy.dart';
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 
 // ! PROVIDER
-final isGeminiWritingProvider = StateNotifierProvider.autoDispose<IsGeminiWritingNotifier, IsGeminiWriting>((ref) {
-  return IsGeminiWritingNotifier();
+final isVeloraWritingProvider = StateNotifierProvider.autoDispose<IsVeloraWritingNotifier, IsVeloraWriting>((ref) {
+  return IsVeloraWritingNotifier();
 });
 
 // ! NOTIFIER
-class IsGeminiWritingNotifier extends StateNotifier<IsGeminiWriting> {
-  IsGeminiWritingNotifier(): super(IsGeminiWriting());
+class IsVeloraWritingNotifier extends StateNotifier<IsVeloraWriting> {
+  IsVeloraWritingNotifier(): super(IsVeloraWriting());
   
   // * Metodos para establecer si escribe o no
   void setIsWriting(){
@@ -26,18 +25,18 @@ class IsGeminiWritingNotifier extends StateNotifier<IsGeminiWriting> {
 }
 
 // ! PROVIDER
-class IsGeminiWriting {
+class IsVeloraWriting {
   
   final bool isWriting;
 
-  IsGeminiWriting({
+  IsVeloraWriting({
     this.isWriting = false,
   });
 
 
-  IsGeminiWriting copyWith({
+  IsVeloraWriting copyWith({
     bool? isWriting,
-  }) => IsGeminiWriting(
+  }) => IsVeloraWriting(
       isWriting: isWriting ?? this.isWriting,
   );
   

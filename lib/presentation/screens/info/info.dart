@@ -1,0 +1,1 @@
+export 'info_velora_screen.dart';
