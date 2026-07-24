@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gemini_app/config/router/app_router.dart';
 import 'package:gemini_app/config/theme/app_theme.dart';
 
-// ! SECTION - 02 CONECTION WITH THE BACKEND
+// ! SECTION - 03 CONECTION WITH THE BACKEND BUT TO SEND FILES
 void main() async{
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
