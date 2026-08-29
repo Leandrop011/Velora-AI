@@ -19,7 +19,7 @@ AI.
 ## DEV
 1. Clonar el repositorio.
 2. Ejecutar el comando `flutter pub get` para instalacion de dependencias.
-2. Cambiar el archivo `.env-example` a `.env` y realizar los cambios respectivos.
+3. Cambiar el archivo `.env-example` a `.env` y realizar los cambios respectivos.
 
 ## Dependencias DEV
 Cambiar Splash Screen

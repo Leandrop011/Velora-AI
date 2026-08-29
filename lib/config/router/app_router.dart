@@ -1,6 +1,6 @@
 
 import 'package:go_router/go_router.dart';
-import '../../presentation/screens/screens.dart';
+import '../../features/veloraAI/presentation/screens/screens.dart';
 
 final appRouter = GoRouter(
   routes: [
@@ -23,6 +23,16 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/info-velora',
       builder: (_, _) => const InfoVeloraScreen(),
+    ),
+    // * Screen de configuracion del tema de la app
+    GoRoute(
+      path: '/config-app-theme',
+      builder: (context, state) => const ConfigAppThemeScreen(),
+    ),
+    // * Prompt and files screen
+    GoRoute(
+      path: '/prompt-files',
+      builder: (context, state) => const PromptFilesChatScreen(),
     ),
   ],
 );
