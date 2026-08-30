@@ -8,7 +8,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:gemini_app/config/theme/app_theme.dart';
 import 'package:gemini_app/features/veloraAI/presentation/providers/providers.dart';
 
-// ! SECTION - 03 CONECTION WITH THE BACKEND BUT TO SEND FILES
+// ! SECTION - 04 CONECTION WITH THE BACKEND CHAT CONTEXT
 void main() async{
 
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
