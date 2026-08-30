@@ -1,8 +1,4 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!-- ! PERMISO DE USO Y ACCESO A INTERNET (IMPORTANTE PARA LA VERSION DE PROD, PARA LAS PETICIONES)-->
-    <uses-permission android:name="android.permission.INTERNET"/>
-
     <application
         android:label="Velora"
         android:name="${applicationName}"
