@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/veloraAI/presentation/screens/screens.dart';
 
 final appRouter = GoRouter(
+  initialLocation: '/',
   routes: [
     // * Home screen
     GoRoute(
@@ -33,6 +34,11 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/prompt-files',
       builder: (context, state) => const PromptFilesChatScreen(),
+    ),
+    // * Context Chat screen
+    GoRoute(
+      path: '/context-chat',
+      builder: (context, state) => const ContextChatScreen(),
     ),
   ],
 );

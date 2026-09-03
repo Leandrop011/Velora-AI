@@ -11,6 +11,7 @@ dependencies:
   dio: ^5.9.2
   flutter:
     sdk: flutter
+  flutter_animate: ^4.5.2
   flutter_chat_types: ^3.6.2
   flutter_chat_ui: ^1.6.15
   flutter_dotenv: ^6.0.1
@@ -23,6 +24,7 @@ dependencies:
   riverpod: ^3.2.1
   riverpod_annotation: ^4.0.2
   shared_preferences: ^2.5.5
+  smooth_page_indicator: ^3.0.0
   uuid: ^4.5.3
 
 dev_dependencies:
@@ -38,6 +40,7 @@ flutter:
     - .env
     - assets/avatar/velora-avatar-01.png
     - assets/avatar/velora-avatar-02.png
+    - assets/avatar/velora-avatar-03.png
 
 flutter_launcher_icons:
   android: true

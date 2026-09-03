@@ -41,12 +41,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         actions: Icon(Icons.arrow_forward_ios_rounded, color: colorTheme.primary,),
       ),
       ItemChat(
-        title: 'Mensajes con Velora y archivos', 
+        title: 'Mensajes y archivos con Velora', 
         subTitle: 'Inicia una conversacion con Velora y la posibilidad de subir archivos', 
         route: '/prompt-files', 
         leading: CircleAvatar(
           backgroundColor: colorTheme.primary.withOpacity(0.6),
           child: const Icon(Icons.file_present_rounded),
+        ), 
+        actions: Icon(Icons.arrow_forward_ios_rounded, color: colorTheme.primary,),
+      ),
+      ItemChat(
+        title: 'Maneja el contexto y el historial con Velora', 
+        subTitle: 'Manten el contexto en una conversacion y su historial', 
+        route: '/context-chat', 
+        leading: CircleAvatar(
+          backgroundColor: colorTheme.primary.withOpacity(0.6),
+          child: const Icon(Icons.forum_rounded),
         ), 
         actions: Icon(Icons.arrow_forward_ios_rounded, color: colorTheme.primary,),
       ),
@@ -88,6 +98,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ],
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
         
@@ -102,13 +113,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   });
                 },
                 child: HeaderBordesRedondeados(
-                  size: size, 
+                  size: size,
+                  title: 'Velora',
                   image: (changePhotoAvatar) ? 
                         'assets/avatar/velora-avatar-01.png' 
                         : 
                         'assets/avatar/velora-avatar-02.png',
-                  valueBorderRadiusLeft: 50,
-                  valueBorderRadiusRigth: 50,
+                  fit: BoxFit.contain,
+                  valueBorderRadiusLeft: changePhotoAvatar ? 50 :100,
+                  valueBorderRadiusRigth: changePhotoAvatar ? 50 : 100,
                   colorTheme: colorTheme,
                   valueBorder: 2,
                   textTheme: textTheme,

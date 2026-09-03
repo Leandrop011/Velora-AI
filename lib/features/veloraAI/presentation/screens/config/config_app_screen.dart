@@ -25,6 +25,7 @@ class ConfigAppScreen extends StatelessWidget {
       ),
 
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: _BodyView(
           colorTheme: colorTheme, 
           textTheme: textTheme, 
